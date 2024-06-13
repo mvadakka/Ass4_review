@@ -16,6 +16,12 @@ user_input <- readline("Enter your number here please: ")
 
 #Please input your number here now 
 
+user_numeric <- as.numeric (user_input)
+if (is.na(user_numeric) == T) {
+  print (paste("Test"))
+  quit()
+  
+}
 
 
 
