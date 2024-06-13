@@ -17,13 +17,14 @@ user_input <- readline("Enter your number here please: ")
 #Please input your number here now 
 
 user_numeric <- as.numeric (user_input)
+
 if (is.na(user_numeric) == T) {
   print (paste("Test"))
-  quit()
-  
+  #use quit function here? 
 }
 
-
+#splitting user input into 3 numbers (uses character string as strsplit() uses chracters not strings)
+split_input <- strsplit(user_input, "")
 
 
 
