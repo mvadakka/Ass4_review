@@ -38,3 +38,8 @@ armstrong <- first_number^3 + second_number^3 + third_number^3
 
 is_armstrong <- c(armstrong == user_numeric)
 
+if (is_armstrong == T) {
+  print (paste(user_input, "is a narcissistic number, you self-lover you. Wanna try again?"))
+ } else if (is_armstrong == F) {
+    print (paste(user_input, "is a not a narcissistic number. "))
+  }
