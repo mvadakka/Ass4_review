@@ -12,6 +12,9 @@
 #'- This is a test commit for assignment 2 for BTC1855
 
 
+user_input <- readline("Enter your number here please: ")
+
+#Please input your number here now 
 
 
 
