@@ -34,4 +34,7 @@ second_number <- as.numeric(input_string[2])
 
 third_number <- as.numeric(input_string[3])
 
+armstrong <- first_number^3 + second_number^3 + third_number^3
+
+is_armstrong <- c(armstrong == user_numeric)
 
