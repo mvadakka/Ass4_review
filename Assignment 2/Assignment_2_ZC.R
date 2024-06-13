@@ -16,11 +16,8 @@ user_input <- readline("Enter your number here please: ")
 
 #Please input your number here now 
 
-user_numeric <- as.numeric (user_input)
-
-if (is.na(user_numeric) == T) {
-  print (paste("Test"))
-  #use quit function here? 
+if (is.na(c(as.numeric(user_input))) == T) {
+  stop("THAT IS NOT A NUMBER, SILLY")
 }
 
 #splitting user input into 3 numbers (uses character string as strsplit() uses chracters not strings)
@@ -36,7 +33,9 @@ third_number <- as.numeric(input_string[3])
 
 armstrong <- first_number^3 + second_number^3 + third_number^3
 
-is_armstrong <- c(armstrong == user_numeric)
+user_numeric <- as.numeric(user_input) 
+
+is_armstrong <- user_numeric == armstrong 
 
 if (is_armstrong == T) {
   print (paste(user_input, "is a narcissistic number, you self-lover you. Wanna try again?"))
