@@ -26,7 +26,12 @@ if (is.na(user_numeric) == T) {
 #splitting user input into 3 numbers (uses character string as strsplit() uses chracters not strings)
 split_input <- strsplit(user_input, "")
 
+input_string <- split_input[[1]]
 
+first_number <- as.numeric(input_string[1])
 
+second_number <- as.numeric(input_string[2])
+
+third_number <- as.numeric(input_string[3])
 
 
