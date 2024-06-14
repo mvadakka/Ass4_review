@@ -3,7 +3,7 @@
 
 #Taking user input using readline(), didnt use scan() as scan() 
 #   specifies file path while readline() just goes through console commands
-user_input <- readline("Let's play a game, think of 3, single-digit, positive numbers and put'em together. Enter your number here please: ")
+user_input <- readline("Hey, play a game with me? Think of 3, single-digit, positive numbers and put'em together. Enter your number here please: ")
 
 #----------------------------------------
 
@@ -13,7 +13,7 @@ user_input <- readline("Let's play a game, think of 3, single-digit, positive nu
 
 #Using if() to see if input is numeric, if it is a character, returns NA and stops
 if (is.numeric(c(as.numeric(user_input))) == T) {
-  stop ("THAT IS NOT A NUMBER, SILLY! Run it again and please put in a number, I will be watching...")
+  stop ("ERROR! ERROR! THAT IS NOT A NUMBER, SILLY! Run it again and please put in a number, I will be watching...")
 }
 
 #'Splitting user input into 3 numbers (uses character string as 
