@@ -8,7 +8,7 @@ user_input <- readline(prompt = "Hey, play a game with me? Think of 3, single-di
 
 #----------------------------------------
 
-# Please input your number here now 
+# Please input your number here now through the console 
 
 #---------------------------------------
 
@@ -17,8 +17,8 @@ user_numeric <- as.numeric(user_input)
 
 
 # Using if() and logical OR statement to combine conditions 
-# Seeing if input is not numeric OR if input is negative, if so, it stops
 if (is.na(as.numeric(user_input)) == T | user_numeric <= 0) {
+  #If input is not numeric OR if input is negative, then
   stop ("ERROR! ERROR! THAT DOES NOT FOLLOW THE INSTRUCTIONS, SILLY! \n See any NA warnings? I was forced to do this :( \n Run it again and please put in a number, I will be watching...")
 } 
 
@@ -29,11 +29,14 @@ split_input <- strsplit(user_input, "")
 
 input_string <- split_input[[1]]
 
-#Checking to see if number is greater than 3 digits using logical 
+# Checking to see if number is 3 digits
 if (length(input_string) > 3) {
+  # Checking to see if length of list from user input is number is greater than 3 
+  # digits using logical 
   stop ("ERROR! ERROR! THAT IS A NOT A 3 DIGIT NUMBER, SILLY! \n Please follow the instructions this time. \n Run it again and please put in a number, I will be watching...")
 } 
 
+# Seperating the elements from list to calculate armstrong
 first_number <- as.numeric(input_string[1])
 
 second_number <- as.numeric(input_string[2])
@@ -46,7 +49,9 @@ armstrong <- first_number^3 + second_number^3 + third_number^3
 #' Using conditional to determine if the number is an armstrong number and 
 #' which message is given
 if (user_numeric == armstrong ) {
+  #If user input matches the armstrong calculation, then
   print (paste(user_input, "is a narcissistic number, you self-lover you :). Now either go look at your reflection in a lake ;)"))
  } else {
+   #If it does not match, then
     print (paste(user_input, "is a NOT a narcissistic number. Maybe we should talk about your self image?"))
 }
