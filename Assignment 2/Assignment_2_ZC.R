@@ -22,13 +22,18 @@ user_numeric <- as.numeric(user_input)
 
 if (user_numeric <= 0) {
   stop ("ERROR! ERROR! THAT IS A NEGATIVE NUMBER, SILLY! \n Please follow the instructions this time. \n Run it again and please put in a number, I will be watching...")
-}
+} 
 
 #'Splitting user input into 3 numbers (uses character string as 
 #'   strsplit() uses characters not strings)
 split_input <- strsplit(user_input, "")
 
 input_string <- split_input[[1]]
+
+#Checking to see if number is greater than 3 digits using logical 
+if (length(input_string) > 3) {
+  stop ("ERROR! ERROR! THAT IS A NOT A 3 DIGIT NUMBER, SILLY! \n Please follow the instructions this time. \n Run it again and please put in a number, I will be watching...")
+} 
 
 first_number <- as.numeric(input_string[1])
 
