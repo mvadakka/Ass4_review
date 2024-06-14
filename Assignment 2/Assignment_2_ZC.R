@@ -17,9 +17,9 @@ user_numeric <- as.numeric(user_input)
 
 #Using if() to see if input is numeric, if it is a character, stops
 if (is.na(as.numeric(user_input)) == T) {
-  stop ("ERROR! ERROR! THAT IS NOT A NUMBER, SILLY! \n Run it again and please put in a number, I will be watching...")
+  stop ("ERROR! ERROR! THAT IS NOT A NUMBER, SILLY! \n See these NA warnings? I was forced to do this :( \n Run it again and please put in a number, I will be watching...")
 } else if (user_numeric <= 0) {
-  stop ("ERROR! ERROR! THAT IS A NEGATIVE NUMBER, SILLY! \n Please follow the instructions this time. \n Run it again and please put in a number, I will be watching...")
+  stop ("ERROR! ERROR! THAT IS A NEGATIVE NUMBER, SILLY! \n See these NA warnings? I was forced to do this :( \n Please follow the instructions this time. \n Run it again and please put in a number, I will be watching...")
 }
 
 #'Splitting user input into 3 numbers (uses character string as 
