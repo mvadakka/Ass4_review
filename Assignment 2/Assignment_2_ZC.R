@@ -1,5 +1,6 @@
 #' BTC1855 - Assignment 2, Zachery Chan
 #' R version: Version 2024.04.2+764 (2024.04.2+764)
+#' Code version date: June 14th
 
 #Taking user input using readline(), didnt use scan() as scan() 
 #   specifies file path while readline() just goes through console commands
