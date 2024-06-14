@@ -15,15 +15,13 @@ user_input <- readline(prompt = "Hey, play a game with me? Think of 3, single-di
 #' Now converting user input to numeric to compare
 user_numeric <- as.numeric(user_input)
 
-<<<<<<< HEAD
+
 # Using if() and logical statements to combine conditions 
 # Seeing if input is not numeric OR if input is negative, if so, it stops
-=======
-#Using if() to see if input is numeric, if it is a character, stops
->>>>>>> b37be30bb77b010a354ab819748e496456be1786
 if (is.na(as.numeric(user_input)) == T | user_numeric <= 0) {
   stop ("ERROR! ERROR! THAT DOES NOT FOLLOW THE INSTRUCTIONS, SILLY! \n See these NA warnings? I was forced to do this :( \n Run it again and please put in a number, I will be watching...")
 } 
+
 
 #' Splitting user input into 3 numbers (uses character string as 
 #' strsplit() uses characters not strings)
