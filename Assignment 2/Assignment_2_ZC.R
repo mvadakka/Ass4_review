@@ -1,5 +1,5 @@
 #' BTC1855 - Assignment 2, Zachery Chan
-#' R version: Version 2024.04.1+748 (2024.04.1+748)
+#' R version: Version 2024.04.2+764 (2024.04.2+764)
 
 #Taking user input using readline(), didnt use scan() as scan() 
 #   specifies file path while readline() just goes through console commands
@@ -14,7 +14,6 @@ user_input <- readline("Let's play a game, think of 3, single-digit, positive nu
 #Using if() to see if input is numeric, if it is a character, returns NA and stops
 if (is.numeric(c(as.numeric(user_input))) == T) {
   stop ("THAT IS NOT A NUMBER, SILLY! Run it again and please put in a number, I will be watching...")
-  quit ()
 }
 
 #'Splitting user input into 3 numbers (uses character string as 
