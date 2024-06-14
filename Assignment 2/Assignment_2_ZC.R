@@ -12,6 +12,7 @@ user_input <- readline(prompt = "Hey, play a game with me? Think of 3, single-di
 
 #---------------------------------------
 
+#' Now converting user input to numeric to compare
 user_numeric <- as.numeric(user_input)
 
 #Using if() to see if input is numeric, if it is a character, stops
@@ -40,9 +41,6 @@ third_number <- as.numeric(input_string[3])
 
 #'Calculating if input is an Armstrong number or not
 armstrong <- first_number^3 + second_number^3 + third_number^3
-
-#' Now converting user input to numeric to compare
-user_numeric <- as.numeric(user_input) 
 
 #' Using conditional to determine which message is given
 #' Using else if here because, honestly, I just wanted to... 
