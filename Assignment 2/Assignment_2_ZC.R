@@ -45,7 +45,6 @@ armstrong <- first_number^3 + second_number^3 + third_number^3
 
 #' Using conditional to determine if the number is an armstrong number and 
 #' which message is given
-#' Using else if here because, honestly, I just wanted to... 
 if (user_numeric == armstrong ) {
   print (paste(user_input, "is a narcissistic number, you self-lover you :). Now either go look at your reflection in a lake ;)"))
  } else {
