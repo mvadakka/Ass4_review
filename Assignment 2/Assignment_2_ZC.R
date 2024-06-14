@@ -48,6 +48,6 @@ armstrong <- first_number^3 + second_number^3 + third_number^3
 #' Using else if here because, honestly, I just wanted to... 
 if (user_numeric == armstrong ) {
   print (paste(user_input, "is a narcissistic number, you self-lover you :). Now either go look at your reflection in a lake ;)"))
- } else if (is_armstrong == F) {
+ } else {
     print (paste(user_input, "is a NOT a narcissistic number. Maybe we should talk about your self image?"))
 }
