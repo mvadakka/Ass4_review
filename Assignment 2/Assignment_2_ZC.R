@@ -4,7 +4,7 @@
 
 #Taking user input using readline(), didnt use scan() as scan() 
 #   specifies file path while readline() just goes through console commands
-user_input <- readline("Hey, play a game with me? Think of 3, single-digit, positive numbers and put'em together. Enter your number here please: ")
+user_input <- readline(prompt = "Hey, play a game with me? Think of 3, single-digit, positive numbers and put'em together. Enter your number here please: ")
 
 #----------------------------------------
 
@@ -12,9 +12,16 @@ user_input <- readline("Hey, play a game with me? Think of 3, single-digit, posi
 
 #---------------------------------------
 
-#Using if() to see if input is numeric, if it is a character, returns NA and stops
+#Using if() to see if input is numeric, if it is a character, stops
 if (is.na(as.numeric(user_input)) == T) {
   stop ("ERROR! ERROR! THAT IS NOT A NUMBER, SILLY! \n Run it again and please put in a number, I will be watching...")
+} 
+
+#Using if() to see if input is negative, if it is negative, stops
+user_numeric <- as.numeric(user_input)
+
+if (user_numeric <= 0) {
+  stop ("ERROR! ERROR! THAT IS A NEGATIVE NUMBER, SILLY! \n Please follow the instructions this time. \n Run it again and please put in a number, I will be watching...")
 }
 
 #'Splitting user input into 3 numbers (uses character string as 
@@ -35,11 +42,11 @@ armstrong <- first_number^3 + second_number^3 + third_number^3
 #' Now converting user input to numeric to compare
 user_numeric <- as.numeric(user_input) 
 
-is_armstrong <- user_numeric == armstrong 
-
 #' Using conditional to determine which message is given
-if (is_armstrong == T) {
+#' Using else if here because, honestly, I just wanted to... 
+if (user_numeric == armstrong ) {
   print (paste(user_input, "is a narcissistic number, you self-lover you :). Now either go look at your reflection in a lake ;)"))
  } else if (is_armstrong == F) {
     print (paste(user_input, "is a NOT a narcissistic number. Maybe we should talk about your self image?"))
   }
+
