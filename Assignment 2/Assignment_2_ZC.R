@@ -18,8 +18,8 @@ user_numeric <- as.numeric(user_input)
 
 # Using if() and logical OR statement to combine conditions 
 if (is.na(as.numeric(user_input)) == T | user_numeric <= 0) {
-  #If input is not numeric OR if input is negative, then
-  stop ("ERROR! ERROR! THAT DOES NOT FOLLOW THE INSTRUCTIONS, SILLY! \n See any NA warnings? I was forced to do this :( \n Run it again and please put in a number, I will be watching...")
+  #If input is not numeric OR if input is negative OR is "000" (0 is not a positive number), then
+  stop ("ERROR! ERROR! THAT DOES NOT FOLLOW THE INSTRUCTIONS, SILLY! \n That is not a set of positive numbers \n See any NA warnings? I was forced to do this :( \n Run it again and please put in a number, I will be watching...")
 } 
 
 
@@ -29,6 +29,8 @@ split_input <- strsplit(user_input, "")
 
 input_string <- split_input[[1]]
 
+number_length <- length
+
 # Checking to see if number is 3 digits
 if (length(input_string) > 3) {
   # Checking to see if length of list from user input is number is greater than 3 
@@ -37,11 +39,7 @@ if (length(input_string) > 3) {
 } 
 
 # Seperating the elements from list to calculate armstrong
-first_number <- as.numeric(input_string[1])
-
-second_number <- as.numeric(input_string[2])
-
-third_number <- as.numeric(input_string[3])
+first_number <- as.numeric(input_string)
 
 #'Calculating if input is an Armstrong number or not
 armstrong <- first_number^3 + second_number^3 + third_number^3
