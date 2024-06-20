@@ -41,6 +41,13 @@ if (length(input_string) > 3) {
 # Seperating the elements from list to calculate armstrong
 first_number <- as.numeric(input_string)
 
+# Seperating the elements from list to calculate armstrong
+first_number <- as.numeric(input_string[1])
+
+second_number <- as.numeric(input_string[2])
+
+third_number <- as.numeric(input_string[3])
+
 #'Calculating if input is an Armstrong number or not
 armstrong <- first_number^3 + second_number^3 + third_number^3
 
