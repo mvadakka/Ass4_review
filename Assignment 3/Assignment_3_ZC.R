@@ -12,7 +12,10 @@ print("You will get 5 lives in this game of hangman")
 
 lives <- 5
 
-user_input <- readline(prompt = "enter a letter: ")
+while (lives >= 1) {
+user_input <- readline(prompt = "enter your guess: ")
+
+#add if statement for if the guess is longer than 1 letter, then check to see if it is right and if not, -1 lives
 
 numeric_check <- ifelse(is.na(as.numeric(user_input))==T, 1, 0)
 if (numeric_check == 0) {
@@ -27,27 +30,23 @@ test <- c()
 
 for (i in seq_along(split_word)) {
   if (identical(split_word[i], user_input)){ 
+    
     #concatenating blankl vector, so rresult is only a single element vector with the matching index
     index_match <- c(test, i)
+    
     blank_vector[index_match] <- user_input
     
     print(blank_vector)
-  }
-}
-
-
-
-if (str_detect(word, user_input) == T) {
-  test <- c()
-  for (i in seq_along(split_word)) {
-    if (identical(split_word, user_input)){ 
-      #concatenating blankl vector, so rresult is only a single element vector with the matching index
-      index_match <- c(test, i)
-      
-      blank_vector[index_match] <- user_input
+    print(paste("Correct! You have", lives, "lives left"))
+  } else {
+    lives <- lives - 1 
+    print(paste("Incorrect. You have", lives, "lives left"))
+    print(blank_vector)
+    break()
     }
   }
 }
+
 
 
 
