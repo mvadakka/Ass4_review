@@ -44,7 +44,7 @@ screen_6 <- function() {
 }
 
 user_enter <- function() {
-  user_input <- readline(prompt = "enter your guess: ")
+  readline(prompt = "enter your guess: ")
 }
 
 
@@ -70,23 +70,53 @@ screen_1()
 
 lives <- 6
 
+#Initialize variables
 blank_vector <- c(rep("_", word_length))
 word_list <- strsplit(word, "")
 split_word <- word_list[[1]]
+incorrect_letters <- c()
 
 while (lives > 0) {
-  user_enter()
+  input <- user_enter()
   
   for (i in seq_along(split_word)) {
-    if (identical(split_word[i], user_input)) { 
-      blank_vector[i] <- user_input
-      
-      print(blank_vector)
-      print(paste("Correct! You have", lives, "lives left"))
-    } else {
-      lives <- lives - 1 
-      print(paste("Incorrect. You have", lives, "lives left"))
-      print(blank_vector)
+    if (identical(split_word[i], input)) { 
+      blank_vector[i] <- input
+    }
+  }
+  
+  if (identical(split_word[i], input)) {
+    print(blank_vector)
+    print(paste("Correct! You have", lives, "lives left"))
+  } else {
+    lives <- lives - 1 
+    incorrect_letters <- c(incorrect_letters, input)
+    
+    if (lives == 5) {
+      screen_1()
+    }
+    if (lives == 4) {
+      screen_2()
+    }
+    if (lives == 3) {
+      screen_3()
+    }
+    if (lives == 2) {
+      screen_4()
+    }
+    if (lives == 1) {
+      screen_5()
     }
   }
 }
+
+if (identical(blank_vector, split_word)) {
+  print("Congrats!")
+}
+
+if (lives == 0) {
+  screen_6()
+}
+      
+   
+  
