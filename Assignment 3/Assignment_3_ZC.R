@@ -14,11 +14,12 @@ screen_1 <- function() {
       "       | \n",
       "===========\n")
   cat(paste("Hi there! Let's play a game and see if you can save a life? The chosen word is", word_length, "characters long.\n"))
-  cat("You will get 6 lives in this game of Hangman, choose carefully.\n")
+  cat("You will get 6 lives in this game of Hangman, choose carefully now.\n")
   cat("These are the rules of the game:\n",
-      "  EACH GUESS CONSISTS OF A SINGLE LETTER EACH TIME\n",
-      "  AFTER EACH GUESS, A LIFE IS LOST. WHEN LIVES = 0 YOU HAVE LOST\n")
-} # The other functions for displayign screens follow a similar logic/structure
+      "  Each guess consistes of a single character\n",
+      "  After each guess, if the guess is incorrect, a life is lost\n", 
+      "  When you're out of lives, you lose!")
+} # The other functions for displaying screens follow a similar logic/structure
 
 # Function for displaying screen when lost 1 life 
 screen_2 <- function() {
@@ -31,8 +32,8 @@ screen_2 <- function() {
       "       | \n",
       "===========\n")
   cat(blank_vector, "\n")
-  cat(paste("Incorrect. You have", lives, "lives left\n"))
-  print("The letters you have guessed so far are: ")
+  cat(paste("Uh-oh, lost your head there huh? That's incorrect. You have", lives, "lives left\n"))
+  print("Here's a list to keep track of how incorrect you are: ")
   print(incorrect_letters)
 }
 
@@ -47,7 +48,7 @@ screen_3 <- function() {
       "       | \n",
       "===========\n")
   cat(blank_vector, "\n")
-  cat(paste("Incorrect. You have", lives, "lives left\n"))
+  cat(paste("Now he's got a body... You have", lives, "lives left\n"))
   print("The letters you have guessed so far are: ")
   print(incorrect_letters)
 }
@@ -63,8 +64,8 @@ screen_4 <- function() {
       "       | \n",
       "===========\n")
   cat(blank_vector, "\n")
-  cat(paste("Incorrect. You have", lives, "lives left\n"))
-  print("The letters you have guessed so far are: ")
+  cat(paste(" Incorrect. Our friend needs a 'hand' right now. You have", lives, "lives left\n"))
+  print("Maybe use a vowel? Your previous guesses so far include: ")
   print(incorrect_letters)
 }
 
@@ -79,7 +80,7 @@ screen_5 <- function() {
       "       | \n",
       "===========\n")
   cat(blank_vector, "\n")
-  cat(paste("Incorrect. You have", lives, "lives left\n"))
+  cat(paste("What is they have a family? Oh the tragedy... You have", lives, "lives left\n"))
   print("The letters you have guessed so far are: ")
   print(incorrect_letters)
 }
@@ -95,8 +96,8 @@ screen_6 <- function() {
       "       | \n",
       "===========\n")
   cat(blank_vector, "\n")
-  cat(paste("Incorrect. You have", lives, "lives left\n"))
-  print("The letters you have guessed so far are: ")
+  cat(paste("Barely a leg left to stand on. You have", lives, "lives left. Only 1 life left...\n"))
+  print("Choose carefully, the letters you have guessed so far are: ")
   print(incorrect_letters)
 }
 
@@ -110,7 +111,7 @@ screen_7 <- function() {
       "  / \\  | \n",
       "       | \n",
       "===========\n")
-  cat(paste("Incorrect. You have no lives left. The secret word was:", word, "\n"))
+  cat(paste("Noo! You couldn't rescue them in time :(. \n You have no lives left. The secret word was:", word, "\n"))
 }
 
 
@@ -172,7 +173,7 @@ split_word <- toupper(strsplit(word, "")[[1]])
 #' RULES OF THE GAME: 
 #' 6 LIVES (MATCHING TO TYPICAL ARTWORK FOR HANGMAN)
 #' EACH GUESS CONSISTS OF A SINGLE LETTER EACH TIME
-#' AFTER EACH GUESS, A LIFE IS LOST. WHEN LIVES = 0, YOU AHVE LOST (OUT OF GUESSES)
+#' AFTER EACH GUESS, A LIFE IS LOST. WHEN LIVES = 0, YOU HAE LOST (OUT OF GUESSES)
 #` -----------------------------------------------------------------------------------`
 
 #' Using while loop to ask for user input as long as lives =/= 0  
