@@ -18,10 +18,11 @@ screen_1 <- function() {
   cat(blank_vector, "\n")
   cat("You will get 6 lives in this game of Hangman, choose carefully now.\n")
   cat("These are the rules of the game:\n",
-      "  Each guess consistes of a single character. \n",
-      "  After each guess, if the guess is incorrect, a life is lost. \n", 
-      "  Each game guesses the identity of ONE word (no dashes). \n",
-      "  When you're out of lives, you lose!")
+      "  1. Each guess consistes of a single character. \n",
+      "  2. After each guess, if the guess is incorrect, a life is lost. \n", 
+      "  3. Every word is related to every-day items & actvities, thats the only hint you get! \n", 
+      "  4. Each game guesses the identity of ONE word (no dashes). \n",
+      "  5. When you're out of lives, you lose!")
 } # The other functions for displaying screens follow a similar logic/structure
 
 # Function for displaying screen when lost 1 life 
@@ -117,6 +118,83 @@ screen_7 <- function() {
   cat(paste("Noo! You couldn't rescue them in time :(. \n You have no lives left. The secret word was:", word, "\n"))
 }
 
+# Function for display when correct but lives = 6
+screenC_1 <- function() {
+  cat("Current game: \n",
+      "   +---+ \n",
+      "   |   | \n",
+      "       | \n",
+      "       | \n",
+      "       | \n",
+      "       | \n",
+      "===========\n")
+  cat(blank_vector, "\n")
+}
+
+# Function for display when correct but lives = 5
+screenC_2 <- function() {
+  cat("Current game: \n",
+      "   +---+ \n",
+      "   |   | \n",
+      "   O   | \n",
+      "       | \n",
+      "       | \n",
+      "       | \n",
+      "===========\n")
+  cat(blank_vector, "\n")
+}
+
+# Function for display when correct but lives = 4
+screenC_3 <- function() {
+  cat("Current game: \n",
+      "   +---+ \n",
+      "   |   | \n",
+      "   O   | \n",
+      "   |   | \n",
+      "       | \n",
+      "       | \n",
+      "===========\n")
+  cat(blank_vector, "\n")
+}
+
+# Function for display when correct but lives = 3
+screenC_4 <- function() {
+  cat("Current game: \n",
+      "   +---+ \n",
+      "   |   | \n",
+      "   O   | \n",
+      "  /|   | \n",
+      "       | \n",
+      "       | \n",
+      "===========\n")
+  cat(blank_vector, "\n")
+}
+
+# Function for display when correct but lives = 3
+screenC_6 <- function() {
+  cat("Current game: \n",
+      "   +---+ \n",
+      "   |   | \n",
+      "   O   | \n",
+      "  /|\\  | \n",
+      "  /    | \n",
+      "       | \n",
+      "===========\n")
+  cat(blank_vector, "\n")
+}
+
+# Function for display when correct but lives = 1
+screenC_5 <- function() {
+  cat("Current game: \n",
+      "   +---+ \n",
+      "   |   | \n",
+      "   O   | \n",
+      "  /|\\  | \n",
+      "       | \n",
+      "       | \n",
+      "===========\n")
+  cat(blank_vector, "\n")
+}
 
 
 # Function for capturing user input 
@@ -202,7 +280,22 @@ while (lives > 0) {
   # if match = TRUE, print dashes (and correct), and congratulate 
   if (match) {
     print(blank_vector)
-    print(paste("Correct! You have", lives, "lives left"))
+    print(paste("Correct! Keep going! You have", lives, "lives left"))
+    
+    #Using if-else statements to display current artwork for lives when correct 
+    if (lives == 6) {
+      screenC_1()
+    } else if (lives == 5) {
+      screenC_2()
+    } else if (lives == 4) {
+      screenC_3()
+    } else if (lives == 3) {
+     screenC_4()
+    } else if (lives == 2) {
+      screenC_5()
+    } else if (lives == 1) {
+      screenC_6()
+    }
   } else {
     # IF user is incorrect (match = FALSE), use of else here computes this code 
     
