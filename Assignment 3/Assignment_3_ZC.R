@@ -3,68 +3,117 @@
 #' Code dated to: June 30
 
 #' Setting functions for use in the script
-
-# Function for display first artwork & opening screen 
 screen_1 <- function() {
-  #Using cat here for better displaying than print()
-  cat ("Current game: \n   +---+ \n   |   | \n       | \n       | \n       | \n       | \n ============")
-  cat (paste("Hi there! Lets play game and see if you can save a life? The chosen word is", word_length, "characters long."))
-  print ("You will get 6 lives in this game of Hangman, choose carefully")
-  cat("This is the rules of rhe game: 
-  EACH GUESS CONSISTS OF A SINGLE LETTER EACH TIME
-      AFTER EACH GUESS, A LIFE IS LOST. WHEN LIVES = 0 YOU HAVE LOST")
-} #Using a similar logic and function for all functions to display screens
+  # Using cat here for better displaying than print() as "/n" helps to format the message
+  cat("Current game: \n",
+      "   +---+ \n",
+      "   |   | \n",
+      "       | \n",
+      "       | \n",
+      "       | \n",
+      "       | \n",
+      "===========\n")
+  cat(paste("Hi there! Let's play a game and see if you can save a life? The chosen word is", word_length, "characters long.\n"))
+  cat("You will get 6 lives in this game of Hangman, choose carefully.\n")
+  cat("These are the rules of the game:\n",
+      "  EACH GUESS CONSISTS OF A SINGLE LETTER EACH TIME\n",
+      "  AFTER EACH GUESS, A LIFE IS LOST. WHEN LIVES = 0 YOU HAVE LOST\n")
+} # The other functions for displayign screens follow a similar logic/structure
 
 # Function for displaying screen when lost 1 life 
 screen_2 <- function() {
-  cat ("Current game: \n   +---+ \n   |   | \n   O   | \n       |   \n       | \n       | \n ============")
-  cat (blank_vector)
-  print (paste("Incorrect. You have", lives, "lives left"))
-  print ("the letters you have guesses so far are: ")
-  # Vector displays list of incorrect letters/numbers
-  print (incorrect_letters)
+  cat("Current game: \n",
+      "   +---+ \n",
+      "   |   | \n",
+      "   O   | \n",
+      "       | \n",
+      "       | \n",
+      "       | \n",
+      "===========\n")
+  cat(blank_vector, "\n")
+  cat(paste("Incorrect. You have", lives, "lives left\n"))
+  print("The letters you have guessed so far are: ")
+  print(incorrect_letters)
 }
 
 # Function for displaying screen when lost 2 lives 
 screen_3 <- function() {
-  cat ("Current game: \n   +---+ \n   |   | \n   O   | \n   |   |   \n       | \n       | \n ============")
-  cat (blank_vector)
-  cat (paste("Incorrect. You have", lives, "lives left"))
-  print ("the letters you have guesses so far are: ")
-  print (incorrect_letters)
+  cat("Current game: \n",
+      "   +---+ \n",
+      "   |   | \n",
+      "   O   | \n",
+      "   |   | \n",
+      "       | \n",
+      "       | \n",
+      "===========\n")
+  cat(blank_vector, "\n")
+  cat(paste("Incorrect. You have", lives, "lives left\n"))
+  print("The letters you have guessed so far are: ")
+  print(incorrect_letters)
 }
 
-# Function for displaying screen when lost 3 life 
+# Function for displaying screen when lost 3 lives 
 screen_4 <- function() {
-  cat ("Current game: \n   +---+ \n   |   | \n   O   | \n  /|   |   \n       | \n       | \n ============")
-  cat (blank_vector)
-  cat (paste("Incorrect. You have", lives, "lives left"))
-  print ("the letters you have guesses so far are: ")
-  print (incorrect_letters)
+  cat("Current game: \n",
+      "   +---+ \n",
+      "   |   | \n",
+      "   O   | \n",
+      "  /|   | \n",
+      "       | \n",
+      "       | \n",
+      "===========\n")
+  cat(blank_vector, "\n")
+  cat(paste("Incorrect. You have", lives, "lives left\n"))
+  print("The letters you have guessed so far are: ")
+  print(incorrect_letters)
 }
 
-# Function for displaying screen when lost 4 life 
+# Function for displaying screen when lost 4 lives 
 screen_5 <- function() {
-  cat ("Current game: \n   +---+ \n   |   | \n   O   | \n  /|\\  | \n       | \n       | \n ============")
-  cat (blank_vector)
-  cat (paste("Incorrect. You have", lives, "lives left"))
-  print ("the letters you have guesses so far are: ")
-  print (incorrect_letters)
+  cat("Current game: \n",
+      "   +---+ \n",
+      "   |   | \n",
+      "   O   | \n",
+      "  /|\\  | \n",
+      "       | \n",
+      "       | \n",
+      "===========\n")
+  cat(blank_vector, "\n")
+  cat(paste("Incorrect. You have", lives, "lives left\n"))
+  print("The letters you have guessed so far are: ")
+  print(incorrect_letters)
 }
 
-# Function for displaying screen when lost 5 life 
+# Function for displaying screen when lost 5 lives 
 screen_6 <- function() {
-  cat ("Current game: \n   +---+ \n   |   | \n   O   | \n  /|\\  | \n  /    | \n       | \n ============")
-  cat (blank_vector)
-  cat (paste("Incorrect. You have", lives, "lives left"))
-  print ("the letters you have guesses so far are: ")
-  print (incorrect_letters)
+  cat("Current game: \n",
+      "   +---+ \n",
+      "   |   | \n",
+      "   O   | \n",
+      "  /|\\  | \n",
+      "  /    | \n",
+      "       | \n",
+      "===========\n")
+  cat(blank_vector, "\n")
+  cat(paste("Incorrect. You have", lives, "lives left\n"))
+  print("The letters you have guessed so far are: ")
+  print(incorrect_letters)
 }
+
 # Function for displaying final screen when user has lost 
 screen_7 <- function() {
-  cat ("Current game: \n   +---+ \n   |   | \n   O   | \n  /|\\  | \n  / \\  | \n       | \n ============")
-  print (paste("Incorrect. You have no lives left. The secret word was: ", word))
+  cat("Current game: \n",
+      "   +---+ \n",
+      "   |   | \n",
+      "   O   | \n",
+      "  /|\\  | \n",
+      "  / \\  | \n",
+      "       | \n",
+      "===========\n")
+  cat(paste("Incorrect. You have no lives left. The secret word was:", word, "\n"))
 }
+
+
 
 # Function for capturing user input 
 user_enter <- function() {
