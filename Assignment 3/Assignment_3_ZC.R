@@ -75,22 +75,26 @@ split_word <- toupper(strsplit(word, "")[[1]])
 
 while (lives > 0) {
   input <- toupper(user_enter())
+  match <- F
   
   for (i in seq_along(split_word)) {
     if (split_word[i] == input) { 
       blank_vector[i] <- input
+      match <- T
     }
   }
   
-  if (split_word[i] == input) {
+  if (match) {
     print(blank_vector)
     print(paste("Correct! You have", lives, "lives left"))
   } else {
     lives <- lives - 1 
     incorrect_letters <- c(incorrect_letters, input)
     
-    if (lives == 5) {
+    if (lives == 6) {
       screen_1()
+    } else if (lives == 5) {
+      screen_2()
     } else if (lives == 4) {
       screen_2()
     } else if (lives == 3) {
