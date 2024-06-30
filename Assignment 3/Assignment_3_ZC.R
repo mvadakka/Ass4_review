@@ -47,8 +47,6 @@ user_enter <- function() {
   readline(prompt = "enter your guess: ")
 }
 
-
-
 #Set File path to word list 
 file_path <- "/Users/zachery/BTC1855/Assignment 3/ListofWords.txt"
 
@@ -68,24 +66,26 @@ print("You will get 5 lives in this game of hangman")
 #Dsiplay artwork
 screen_1()
 
-lives <- 6
-
 #Initialize variables
+lives <- 6
 blank_vector <- c(rep("_", word_length))
-word_list <- strsplit(word, "")
-split_word <- word_list[[1]]
 incorrect_letters <- c()
+word_list <- toupper(strsplit(word, ""))
+split_word <- word_list[[1]]
+
 
 while (lives > 0) {
-  input <- user_enter()
+  input <- toupper(user_enter())
+  match <- F
   
   for (i in seq_along(split_word)) {
-    if (identical(split_word[i], input)) { 
+    if (split_word[i] == input) { 
       blank_vector[i] <- input
+      match <- T
     }
   }
   
-  if (identical(split_word[i], input)) {
+  if (match) {
     print(blank_vector)
     print(paste("Correct! You have", lives, "lives left"))
   } else {
@@ -108,15 +108,12 @@ while (lives > 0) {
       screen_5()
     }
   }
-}
-
-if (identical(blank_vector, split_word)) {
-  print("Congrats!")
+  if (identical(blank_vector, split_word)) {
+    print("Congrats!")
+    break
+  }
 }
 
 if (lives == 0) {
   screen_6()
 }
-      
-   
-  
