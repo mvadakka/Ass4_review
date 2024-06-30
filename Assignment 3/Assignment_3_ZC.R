@@ -1,3 +1,8 @@
+
+
+
+
+
 file_path <- "/Users/zachery/BTC1855/Assignment 3/ListofWords.txt"
 
 word_list <- readLines(file_path)
@@ -10,7 +15,9 @@ print(paste("The chosen word is", word_length, "characters long."))
 
 print("You will get 5 lives in this game of hangman")
 
-lives <- 5
+cat("Current game: \n   +---+ \n   |   | \n       | \n       | \n       | \n       | \n ============")
+
+lives <- 6
 
 while (lives >= 1) {
 user_input <- readline(prompt = "enter your guess: ")
@@ -26,10 +33,10 @@ blank_vector <- c(rep("_", word_length))
 
 word_list <- strsplit(word, "")
 split_word <- word_list[[1]]
-test <- c()
 
 for (i in seq_along(split_word)) {
   if (identical(split_word[i], user_input)){ 
+    test <- c()
     
     #concatenating blankl vector, so rresult is only a single element vector with the matching index
     index_match <- c(test, i)
@@ -42,14 +49,50 @@ for (i in seq_along(split_word)) {
     lives <- lives - 1 
     print(paste("Incorrect. You have", lives, "lives left"))
     print(blank_vector)
+    
+    incorrect <- c()
+    incorrect_letters <- append(incorrect, user_input)
+    
+    print("the letters you have guesses so far are: ")
+    print (incorrect_letters)
+    
+    if (lives == 5) {
+      cat("Current game: \n   +---+ \n   |   | \n   O   | \n       |   \n       | \n       | \n ============")
+      print(paste("Incorrect. You have", lives, "lives left"))
+      print("the letters you have guesses so far are: ")
+      print (incorrect_letters)
+    } 
+    if (lives == 4) {
+      cat("Current game: \n   +---+ \n   |   | \n   O   | \n   |   |   \n       | \n       | \n ============")
+      print(paste("Incorrect. You have", lives, "lives left"))
+      print("the letters you have guesses so far are: ")
+      print (incorrect_letters)
+    } 
+    if (lives == 3) {
+      cat("Current game: \n   +---+ \n   |   | \n   O   | \n  /|   |   \n       | \n       | \n ============")
+      print(paste("Incorrect. You have", lives, "lives left"))
+      print("the letters you have guesses so far are: ")
+      print (incorrect_letters)
+    } 
+    if (lives == 2) {
+      cat("Current game: \n   +---+ \n   |   | \n   O   | \n  /|\\  | \n       | \n       | \n ============")
+      print(paste("Incorrect. You have", lives, "lives left"))
+      print("the letters you have guesses so far are: ")
+      print (incorrect_letters)
+    }
+    if (lives == 1 ){
+      cat("Current game: \n   +---+ \n   |   | \n   O   | \n  /|\\  | \n  /    | \n       | \n ============")
+      print(paste("Incorrect. You have", lives, "lives left"))
+      print("the letters you have guesses so far are: ")
+      print (incorrect_letters)
+    }
+    if (lives == 0) {
+      cat("Current game: \n   +---+ \n   |   | \n   O   | \n  /|\\  | \n  / \\  | \n       | \n ============")
+      print(paste("Incorrect. You have no lives left. The secret word was: ", word))
+    
+    }
     break()
     }
   }
 }
-
-
-
-
-
-
 
