@@ -14,10 +14,13 @@ screen_1 <- function() {
       "       | \n",
       "===========\n")
   cat(paste("Hi there! Let's play a game and see if you can save a life? The chosen word is", word_length, "characters long.\n"))
+  cat("Your word is: ")
+  cat(blank_vector, "\n")
   cat("You will get 6 lives in this game of Hangman, choose carefully now.\n")
   cat("These are the rules of the game:\n",
-      "  Each guess consistes of a single character\n",
-      "  After each guess, if the guess is incorrect, a life is lost\n", 
+      "  Each guess consistes of a single character. \n",
+      "  After each guess, if the guess is incorrect, a life is lost. \n", 
+      "  Each game guesses the identity of ONE word (no dashes). \n",
       "  When you're out of lives, you lose!")
 } # The other functions for displaying screens follow a similar logic/structure
 
@@ -153,9 +156,6 @@ word <- sample(word_list,1)
 # Getting character count of sampled word 
 word_length <- nchar(word)
 
-#Displaying inital screen
-screen_1()
-
 # Initializing variables
 # Set lives to 6 for player 
 lives <- 6
@@ -171,9 +171,13 @@ split_word <- toupper(strsplit(word, "")[[1]])
 # Using toupper() here to disregard lower/upper case for words in the txt file 
 # The use of strsplit() here was very finicky, had to set this all in 1 line 
 
+#Displaying inital screen
+screen_1()
+
 #` -----------------------------------------------------------------------------------`
 #' RULES OF THE GAME: 
 #' 6 LIVES (MATCHING TO TYPICAL ARTWORK FOR HANGMAN)
+#' EACH GAME INVOLVVES GUESSING FOR A SINGLE WORD (NO DASHES)
 #' EACH GUESS CONSISTS OF A SINGLE LETTER EACH TIME
 #' AFTER EACH GUESS, A LIFE IS LOST. WHEN LIVES = 0, YOU HAE LOST (OUT OF GUESSES)
 #` -----------------------------------------------------------------------------------`
