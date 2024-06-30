@@ -70,22 +70,19 @@ screen_1()
 lives <- 6
 blank_vector <- c(rep("_", word_length))
 incorrect_letters <- c()
-word_list <- toupper(strsplit(word, ""))
-split_word <- word_list[[1]]
+split_word <- toupper(strsplit(word, "")[[1]])
 
 
 while (lives > 0) {
   input <- toupper(user_enter())
-  match <- F
   
   for (i in seq_along(split_word)) {
     if (split_word[i] == input) { 
       blank_vector[i] <- input
-      match <- T
     }
   }
   
-  if (match) {
+  if (split_word[i] == input) {
     print(blank_vector)
     print(paste("Correct! You have", lives, "lives left"))
   } else {
@@ -94,18 +91,17 @@ while (lives > 0) {
     
     if (lives == 5) {
       screen_1()
-    }
-    if (lives == 4) {
+    } else if (lives == 4) {
       screen_2()
-    }
-    if (lives == 3) {
+    } else if (lives == 3) {
       screen_3()
-    }
-    if (lives == 2) {
+    } else if (lives == 2) {
       screen_4()
-    }
-    if (lives == 1) {
+    } else if (lives == 1) {
       screen_5()
+    } else if ( lives == 0) {
+      screen_6()
+      break
     }
   }
   if (identical(blank_vector, split_word)) {
@@ -114,6 +110,3 @@ while (lives > 0) {
   }
 }
 
-if (lives == 0) {
-  screen_6()
-}
