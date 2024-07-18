@@ -99,8 +99,10 @@ anyDuplicated(data2)
 #' Check for extreme values??? 
 
 #' Adding duration in seconds for clarity 
-data3 <- data.frame(data2$country, data2$shape, data2$duration.seconds, data1$duration.seconds, data2$comments)
-colnames(data3) <- c("country", "shape", "duration.seconds.pos", "duration.seconds", "comments")
+data3 <- data.frame(data2$country, data2$shape, data2$duration.seconds, data1$duration.seconds,
+                    data2$comments, data2$sighttime, data2$date_posted)
+colnames(data3) <- c("country", "shape", "duration.seconds.pos", "duration.seconds", 
+                     "comments", "sighttime", "date_posted")
 
 
 std_dev_seconds <- sd(data3$duration.seconds, na.rm = TRUE)
@@ -110,12 +112,13 @@ std_dev_seconds <- sd(data3$duration.seconds, na.rm = TRUE)
 data3 <- data3 %>%
   filter(duration.seconds > 0.5) %>%
   mutate(duration.mutate = duration.seconds / (60 * 60 * 24)) %>%
-  filter(duration.mutate < 100)
+  filter(duration.mutate < 100) %>%
+  #Using just "((" as some commments were clearly indictaing potential reasons for hoax but was not indicated with "NUFORC NOTE"
+  filter(!str_detect(comments, "\\(\\("))
 
+data3$report_delay_days <- (data3$date_posted - data3$sighttime)/(60*60*24)
+data3 <- data3 %>%
+  filter(report_delay_days > 0)
 
-str_locate(data1$comments, "((")
-
-
-
-
+table(data3$report_delay_days)
 
