@@ -1,14 +1,41 @@
+#' BTC1855 - Assignment 4, Zachery Chan
+#' R version: Version 2024.04.2+764 (2024.04.2+764)
+#' Code dated to: July 18
+
+#` ---------------------------------------------------------------
+# DEFINING FUNCTIONS 
+
+empty_string <- function(col) {
+  any(col == "")
+}
+
+na_check <- function(col) {
+  anyNA(col)
+}
+
+#` ---------------------------------------------------------------
+# Setting file path to read UFO data 
 file_path <- c("/Users/zachery/BTC1855/Assignment_4/ufo_subset.csv")
+
+# Reading and storing raw data into dataframe
 data <- read.csv(file_path)
 
+# Setting libraries 
 library(lubridate)
 library(stringr)
 library(dplyr)
 
-# Creating new data frame 
+# Creating new data frame for manipulation 
 data1 <- data
 
-# Renaming datetime to sighting time
+# Examining data
+summary(data)
+# Identified the following issues:
+#' - no NAs, likely coded as something else, found NAs to be coded as "" AKA empty string
+#' - dates are coded as character not as numeric or POSIX
+#' - factor-able variables are stored as strings (state, country, etc.)
+
+# Renaming datetime variable to sighttime
 data1 <- data1 %>%
   select(sighttime = datetime,
          city,
@@ -22,10 +49,19 @@ data1 <- data1 %>%
          latitude, 
          longitude)
 
-# Factoring state, storing new cariable
+#checking which variables have ""
+empty_chk <- apply(data1, 2, empty_string)
+empty_chk
+
+#checking which variables have NA
+na_chk <- apply(data1, 2, na_check)
+na_chk
+
+# Factoring state variable
+# Factoring state, storing as new variable
 data1$state_fctr <- factor(data1$state)
 
-# Addressing missing, redefining as NA 
+# Addressing "", redefining as NA 
 data1$state_fctr[data1$state_fctr == ""] <- NA
 
 #' Redefining levels of state factor to remove "" bin as it is empty 
@@ -35,6 +71,7 @@ state_lvls <- state_lvls[state_lvls != ""]
 #' Redefining state factor with new levels 
 data1$state_fctr <- factor(data1$state, levels = state_lvls)
 
+# Factoring country variable 
 # Factoring country, storing new variable
 data1$country_fctr <- factor(data1$country)
 
@@ -48,6 +85,8 @@ country_lvls <- country_lvls[country_lvls != ""]
 #' Redefining state factor with new levels 
 data1$country_fctr <- factor(data1$country, levels = country_lvls)
 
+
+
 #' Converting date to a date type 
 data1$date_posted_alt <- strptime(data1$date_posted, format = "%d-%m-%Y")
 #data1$date_posted_alt <- dmy(data1$date_posted)
@@ -59,6 +98,21 @@ data1$date_posted_alt <- strptime(data1$date_posted, format = "%d-%m-%Y")
 #Converting sighttime into Posix 
 data1$sighttime_alt <- ymd_hm(data1$sighttime)
 #data1$sighttime_alt <- strptime(data1$sighttime, format = "%Y-%m-%d %H:%M", tz = "UTC")
+
+
+factoring <- function(data, column_name) {
+  data[paste0(column_name, "_fctr")] <- factor(data[column_name])
+  
+  data[paste0(column_name, "_fctr")][data[paste0(column_name, "_fctr")] ==""] <- NA 
+  
+  new_lvls <- levels(data[paste0(column_name, "_fctr")])
+  new_lvls <-   new_lvls[new_lvls != ""] 
+  
+  data[paste0(column_name, "_fctr")] <- factor(data[paste0(column_name, "_fctr")], levels =   new_lvls)
+  
+  data[paste0(column_name, "_fctr")]
+}
+shape_tst <- factoring(data1, "shape")
 
 # Factoring state, storing new cariable
 data1$shape_fctr <- factor(data1$shape)
@@ -120,5 +174,17 @@ data3$report_delay_days <- (data3$date_posted - data3$sighttime)/(60*60*24)
 data3 <- data3 %>%
   filter(report_delay_days > 0)
 
-table(data3$report_delay_days)
+data4 <- data.frame(data3$country, data3$report_delay_days)
+colnames(data4) = c("country", "report_delay")
+
+data4$report_delay <- round(as.numeric(data4$report_delay), 5)
+
+data4_summary <- data4 %>%
+  filter(!is.na(data4$country)) %>%
+  group_by(country) %>%
+  summarise(Mean_Report_Delay = round(mean(report_delay, na.rm = TRUE), 3))
+
+data4_summary
+
+
 
