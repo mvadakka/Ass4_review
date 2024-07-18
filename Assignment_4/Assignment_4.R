@@ -99,15 +99,21 @@ anyDuplicated(data2)
 #' Check for extreme values??? 
 
 #' Adding duration in seconds for clarity 
-data3 <- data.frame(data2$country, data2$shape, data2$duration.seconds, data1$duration.seconds)
-colnames(data3) <- c("country", "shape", "duration.seconds.pos", "duration.seconds")
+data3 <- data.frame(data2$country, data2$shape, data2$duration.seconds, data1$duration.seconds, data2$comments)
+colnames(data3) <- c("country", "shape", "duration.seconds.pos", "duration.seconds", "comments")
+
+
+std_dev_seconds <- sd(data3$duration.seconds, na.rm = TRUE)
 
 #' Dealing with outliers, filtering to keep any sightings longer than 0.5 seconds 
-#' and less than 100 days 
+#' and less than 100 days (using 100 days a 3 std devs included )
 data3 <- data3 %>%
   filter(duration.seconds > 0.5) %>%
   mutate(duration.mutate = duration.seconds / (60 * 60 * 24)) %>%
   filter(duration.mutate < 100)
+
+
+str_locate(data1$comments, "((")
 
 
 
