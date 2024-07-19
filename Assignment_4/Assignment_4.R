@@ -16,7 +16,7 @@ na_check <- function(col) {
 }
 
 # Function for factoring data and resetting factor levels 
-# Not exactly sure why I need double [[...]] here but  had similar examples and it doesnt work without it 
+# Need to use [[...]] here to run a function when subsetting the dataframe
 factoring <- function(data, column_name) {
   # Using paste0 to add _fctr
   data[[paste0(column_name, "_fctr")]] <- factor(data[[column_name]])
