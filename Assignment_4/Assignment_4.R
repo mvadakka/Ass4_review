@@ -66,7 +66,7 @@ data1 <- data1 %>%
          latitude, 
          longitude)
 
-#checking which variables have ""
+# Checking which variables have ""
 empty_chk <- apply(data1, 2, empty_string)
 empty_chk
 
@@ -74,7 +74,7 @@ empty_chk
 na_chk <- apply(data1, 2, na_check)
 na_chk
 
-#From the fucntions, it is apparent that state, country, and shape have ""
+# From the fucntions, it is apparent that state, country, and shape have ""
 # these need to be addressed, no NAs 
 # Factoring variables
 # Factoring state, storing as new variable
@@ -125,7 +125,7 @@ anyDuplicated(data2)
 std_dev_seconds <- sd(data2$duration.seconds, na.rm = TRUE)
 std_dev_seconds
 
-#Calculating mean 
+# Calculating mean 
 avg_seconds <- mean(data2$duration.seconds, na.rm = TRUE)
 avg_seconds
 
@@ -138,19 +138,18 @@ avg_seconds
 # Using standard deviation + mean to calculate positive outlier limit 
 outlier_lmt <- avg_seconds+3*std_dev_seconds
 
-#Creating new dataframe with filtered/removed rows
+# Creating new dataframe with filtered/removed rows
 data3 <- data2 %>%
   # Filtering so sightings < 0.5 seconds are removed 
   filter(duration.seconds > 0.5) %>%
   # Creating new column for duration in days (gives better idea as to length)
-  mutate(duration.days = duration.seconds / (60 * 60 * 24)) %>%
-  # Filtering so sightings > 3*(standard deviations), removes extreme outliers 
-  # previous had values for 900+ days, 
+  mutate(duration.days = duration.seconds/(60 * 60 * 24)) %>%
+  # Filtering so sightings > 3*(standard deviations), removes extreme outliers previous had values for 900+ days, 
   filter(duration.seconds < outlier_lmt) %>% 
   #' filtering out likely hoaxes (as commented by NUFORC)
-  #' Using just "((" as some comments were clearly indicating potential 
-  #' reasons for hoax but was not indicated with "((NUFORC NOTE...", just ((..)) 
   filter(!str_detect(comments, "\\(\\("))
+#' Using just "((" as some comments were clearly indicating potential 
+#' reasons for hoax but was not indicated with "((NUFORC NOTE...", just ((..)) 
 
 # Creating new variable of report_delay, dividing as POSIX - POSIX gives difference in seconds 
 data3$report_delay_days <- (data3$date_posted - data3$sighttime)/(60*60*24)
@@ -159,17 +158,50 @@ data3$report_delay_days <- (data3$date_posted - data3$sighttime)/(60*60*24)
 data3 <- data3 %>%
   filter(report_delay_days > 0)
 
+# Creating new dataframe for creating table of average report delay per country
 data4 <- data.frame(data3$country, data3$report_delay_days)
-colnames(data4) = c("country", "report_delay")
+colnames(data4) = c("country", "report_delay") 
 
-data4$report_delay <- round(as.numeric(data4$report_delay), 5)
+# Need to convert report_delay into numeric to average them 
+data4$report_delay <- as.numeric(data4$report_delay)
 
+# Filtering dataset to create average table
 data4_summary <- data4 %>%
+  # Removes NA bin from appearing in table 
   filter(!is.na(data4$country)) %>%
+  # Groups  by country 
   group_by(country) %>%
-  summarise(Mean_Report_Delay = round(mean(report_delay, na.rm = TRUE), 3))
+  # Calculates mean by country, using na.rm as there still may be NAs in each country bin
+  summarise(Mean_Report_Delay = mean(report_delay, na.rm = TRUE))
 
 data4_summary
+
+# Creating histogram using the 'duration seconds' column with filtered data 
+# filtered (non-hoax) data 
+# Using log_10 to structure data to make it readable in graph (otherwise range too large) 
+log_secs <- log10(data3$duration.seconds)
+
+# Setting tick marks labels to make it easier to understand graph (setting bins)
+graph_lbls <- c("0.5secs", "1secs", "10secs", "30secs", "1min", "5min", "30min",
+                "1hr", "1day", "1wk", "2wks", "3wks")
+
+# Setting values for x-axis tick marks 
+graph_ticks_secs <- c(0.5, 1, 10, 30, 60, 300, 1800, 3600, 86400, 604800, 1209600, 1814400)
+
+# Log_10 values for the respective seconds for chosen bins
+graph_ticks_log <- log10(graph_ticks_secs)
+
+# Plotting histogram, using frequency as it reads better to general audience
+hist(log_secs, main= "Duration of Reported UFO Sightings, 2010 - 2014",
+     xlab = "Log(duration) (secs)", ylab = "Frequency of Sightings", 
+     breaks = graph_ticks_log, freq = T, xlim = c(c(min(log_secs)), max(log_secs)),
+     ylim = c(0, 10000), xaxt = "n")
+axis(side = 1, at = graph_ticks_log,labels = graph_lbls, las = 2, cex.axis = 0.7)
+# Using custom axis to set tick marks and make bin ranges more evident
+
+
+
+
 
 
 
