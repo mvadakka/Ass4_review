@@ -5,15 +5,32 @@
 #` ---------------------------------------------------------------
 # DEFINING FUNCTIONS 
 
+# Function for checking any "" in columns 
 empty_string <- function(col) {
   any(col == "")
 }
 
+# Function for checking any NAs in columns 
 na_check <- function(col) {
   anyNA(col)
 }
 
+# Function for factoring data and resetting factor levels 
+# Not exactly sure why I need double [[...]] here but __ had similar examples and it doesnt work without it 
+factoring <- function(data, column_name) {
+  # Using paste0 to add _fctr
+  data[[paste0(column_name, "_fctr")]] <- factor(data[[column_name]])
+  # Setting blanks, "", as NAs
+  data[[paste0(column_name, "_fctr")]][data[[paste0(column_name, "_fctr")]] ==""] <- NA 
+  #' Redefining levels of factor to remove "" bin as it is empty 
+  new_lvls <- levels(data[[paste0(column_name, "_fctr")]])
+  new_lvls <- new_lvls[new_lvls != ""] 
+  #' Redefining factor with new levels 
+  data[[paste0(column_name, "_fctr")]] <- factor(data[[paste0(column_name, "_fctr")]], levels =   new_lvls)
+}
+
 #` ---------------------------------------------------------------
+
 # Setting file path to read UFO data 
 file_path <- c("/Users/zachery/BTC1855/Assignment_4/ufo_subset.csv")
 
@@ -57,120 +74,88 @@ empty_chk
 na_chk <- apply(data1, 2, na_check)
 na_chk
 
-# Factoring state variable
+#From the fucntions, it is apparent that state, country, and shape have ""
+# these need to be addressed, no NAs 
+# Factoring variables
 # Factoring state, storing as new variable
-data1$state_fctr <- factor(data1$state)
+data1$state_fctr <- factoring(data1, "state")
+summary(data1$state_fctr)
 
-# Addressing "", redefining as NA 
-data1$state_fctr[data1$state_fctr == ""] <- NA
-
-#' Redefining levels of state factor to remove "" bin as it is empty 
-state_lvls <- levels(data1$state_fctr)
-state_lvls <- state_lvls[state_lvls != ""]
-
-#' Redefining state factor with new levels 
-data1$state_fctr <- factor(data1$state, levels = state_lvls)
-
-# Factoring country variable 
-# Factoring country, storing new variable
-data1$country_fctr <- factor(data1$country)
-
-#' Addressing missing, redefining as NA 
-data1$country_fctr[data1$country_fctr == ""] <- NA
-
-#' Redefining levels of state factor to remove "" bin as it is empty 
-country_lvls <- levels(data1$country_fctr)
-country_lvls <- country_lvls[country_lvls != ""]
-
-#' Redefining state factor with new levels 
-data1$country_fctr <- factor(data1$country, levels = country_lvls)
-
-
-
-#' Converting date to a date type 
-data1$date_posted_alt <- strptime(data1$date_posted, format = "%d-%m-%Y")
-#data1$date_posted_alt <- dmy(data1$date_posted)
-
-
-#' ------------------------
-# data1$duration.hours.min[str_detect(duration.hours.min, "sec")] <- c(">1 min")
-#' ------------------------
-#Converting sighttime into Posix 
-data1$sighttime_alt <- ymd_hm(data1$sighttime)
-#data1$sighttime_alt <- strptime(data1$sighttime, format = "%Y-%m-%d %H:%M", tz = "UTC")
-
-
-factoring <- function(data, column_name) {
-  data[paste0(column_name, "_fctr")] <- factor(data[column_name])
-  
-  data[paste0(column_name, "_fctr")][data[paste0(column_name, "_fctr")] ==""] <- NA 
-  
-  new_lvls <- levels(data[paste0(column_name, "_fctr")])
-  new_lvls <-   new_lvls[new_lvls != ""] 
-  
-  data[paste0(column_name, "_fctr")] <- factor(data[paste0(column_name, "_fctr")], levels =   new_lvls)
-  
-  data[paste0(column_name, "_fctr")]
-}
-shape_tst <- factoring(data1, "shape")
+# Factoring country variable, storing as new variable
+data1$country_fctr <- factoring(data1, "country")
+summary(data1$country_fctr)
 
 # Factoring state, storing new cariable
 data1$shape_fctr <- factor(data1$shape)
+summary(data1$shape_fctr)
 
-# Addressing missing, redefining as NA 
-data1$shape_fctr[data1$shape_fctr == ""] <- NA
+#' Converting date to a date type, used strptime() as dmy() saved as Date format instead of POSIX 
+data1$date_posted_alt <- strptime(data1$date_posted, format = "%d-%m-%Y")
 
-# Redefining levels of state factor to remove "" bin as it is empty 
-shape_lvls <- levels(data1$shape_fctr)
-shape_lvls <- shape_lvls[shape_lvls != ""]
+# Converting sighttime into Posix 
+data1$sighttime_alt <- ymd_hm(data1$sighttime)
 
-# Redefining state factor with new levels 
-data1$shape_fctr <- factor(data1$shape, levels = shape_lvls)
-
-# Using EST as tz but shouldnt matter as measuring duration
+# Converting seconds duration into a POSIX for later calculations
+# Using timezone as UTC but does not matter as measuring duration (don't need to keep track of time)
 data1$duration.seconds_alt <- as.POSIXct(duration.seconds, tz = "UTC")
+
+# NOTE: didn't convert duration.hours.sec as it is very messy and consists of 
+# widely varied comments on time (wide variation in string format)
 
 # Setting missing comments as NA 
 data1$comments_alt <- data1$comments
 data1$comments_alt[data1$comments_alt == ""] <- NA
+# NOTE: didn't use custom function as comments should not be factored, too varied 
 
 # Making new dataframe with corrected structural issues 
 data2 <- data.frame(data1$sighttime_alt, data1$city, data1$state_fctr, data1$country_fctr, 
-                    data1$shape_fctr, data1$duration.seconds_alt, data1$duration.hours.min, 
+                    data1$shape_fctr, data1$duration.seconds_alt, data1$duration.seconds, data1$duration.hours.min, 
                     data1$comments_alt, data1$date_posted_alt, data1$latitude, data1$longitude)
-
 colnames(data2) <- c("sighttime", "city", "state", "country",
-                     "shape", "duration.seconds", "duration.hours.min", 
+                     "shape", "duration.seconds.POSIX", "duration.seconds", "duration.hours.min", 
                      "comments", "date_posted", "latitude", "longitude")
 
-# Checking for any blanks 
-column_blnk <- apply(data2, 2, function(col) any(col == ""))
-#Checking for NAs
-column_na <- apply(data2, 2,  function(col) any(is.na(col)))
 # Checking for exact duplicates 
 anyDuplicated(data2)
 
-#' Check for extreme values??? 
+#' Check for extreme values??? (CHECK)!!!!!!!!!!!!!!!!!! 
 
-#' Adding duration in seconds for clarity 
-data3 <- data.frame(data2$country, data2$shape, data2$duration.seconds, data1$duration.seconds,
-                    data2$comments, data2$sighttime, data2$date_posted)
-colnames(data3) <- c("country", "shape", "duration.seconds.pos", "duration.seconds", 
-                     "comments", "sighttime", "date_posted")
+# Dealing with outliers 
+# Calculating standard deviations to see what values are extreme 
+std_dev_seconds <- sd(data2$duration.seconds, na.rm = TRUE)
+std_dev_seconds
 
+#Calculating mean 
+avg_seconds <- mean(data2$duration.seconds, na.rm = TRUE)
+avg_seconds
 
-std_dev_seconds <- sd(data3$duration.seconds, na.rm = TRUE)
+# Seeing that the mean is 7891 seconds, it is clear that there is extreme positive 
+#' skew in this data. So cannot use standard deviations to calculate small outliers
+#' Filtering to keep any sightings longer than 0.5 seconds 
+#' (average human reaction time is 0.25 seconds, I assume we need to double 
+#' this as the shock of seeing aliens will stun anyone)
 
-#' Dealing with outliers, filtering to keep any sightings longer than 0.5 seconds 
-#' and less than 100 days (using 100 days a 3 std devs included )
-data3 <- data3 %>%
+# Using standard deviation + mean to calculate positive outlier limit 
+outlier_lmt <- avg_seconds+3*std_dev_seconds
+
+#Creating new dataframe with filtered/removed rows
+data3 <- data2 %>%
+  # Filtering so sightings < 0.5 seconds are removed 
   filter(duration.seconds > 0.5) %>%
-  mutate(duration.mutate = duration.seconds / (60 * 60 * 24)) %>%
-  filter(duration.mutate < 100) %>%
-  #Using just "((" as some commments were clearly indictaing potential reasons for hoax but was not indicated with "NUFORC NOTE"
+  # Creating new column for duration in days (gives better idea as to length)
+  mutate(duration.days = duration.seconds / (60 * 60 * 24)) %>%
+  # Filtering so sightings > 3*(standard deviations), removes extreme outliers 
+  # previous had values for 900+ days, 
+  filter(duration.seconds < outlier_lmt) %>% 
+  #' filtering out likely hoaxes (as commented by NUFORC)
+  #' Using just "((" as some comments were clearly indicating potential 
+  #' reasons for hoax but was not indicated with "((NUFORC NOTE...", just ((..)) 
   filter(!str_detect(comments, "\\(\\("))
 
+# Creating new variable of report_delay, dividing as POSIX - POSIX gives difference in seconds 
 data3$report_delay_days <- (data3$date_posted - data3$sighttime)/(60*60*24)
+
+# Filtering data for only positive report delays (not reported before sighted)
 data3 <- data3 %>%
   filter(report_delay_days > 0)
 
