@@ -16,8 +16,10 @@ na_check <- function(col) {
 }
 
 # Function for factoring data and resetting factor levels 
-# Not exactly sure why I need double [[...]] here but __ had similar examples and it doesnt work without it 
+# Not exactly sure why I need [[...]] here to run a function when subsetting 
 factoring <- function(data, column_name) {
+  # Using paste0 to add _fctr
+  data[[paste0(column_name, "_fctr")]] <- factor(data[[column_name]])
   # Using paste0 to add _fctr
   data[[paste0(column_name, "_fctr")]] <- factor(data[[column_name]])
   # Setting blanks, "", as NAs
@@ -30,9 +32,11 @@ factoring <- function(data, column_name) {
 }
 
 #` ---------------------------------------------------------------
+# START OF ASSIGNMENT 
 
 # Setting file path to read UFO data 
 file_path <- c("/Users/zachery/BTC1855/Assignment_4/ufo_subset.csv")
+# Please set this to your system accordingly, thank you! 
 
 # Reading and storing raw data into dataframe
 data <- read.csv(file_path)
@@ -74,7 +78,7 @@ empty_chk
 na_chk <- apply(data1, 2, na_check)
 na_chk
 
-# From the fucntions, it is apparent that state, country, and shape have ""
+# From the functions, it is apparent that state, country, and shape have ""
 # these need to be addressed, no NAs 
 # Factoring variables
 # Factoring state, storing as new variable
@@ -85,8 +89,8 @@ summary(data1$state_fctr)
 data1$country_fctr <- factoring(data1, "country")
 summary(data1$country_fctr)
 
-# Factoring state, storing new cariable
-data1$shape_fctr <- factor(data1$shape)
+# Factoring shape, storing as new variable
+data1$shape_fctr <- factoring(data1, "shape")
 summary(data1$shape_fctr)
 
 #' Converting date to a date type, used strptime() as dmy() saved as Date format instead of POSIX 
@@ -101,6 +105,7 @@ data1$duration.seconds_alt <- as.POSIXct(duration.seconds, tz = "UTC")
 
 # NOTE: didn't convert duration.hours.sec as it is very messy and consists of 
 # widely varied comments on time (wide variation in string format)
+# as analysis does not use this variable, best to leave it alone instead of losing data when filtering/sorting into date data 
 
 # Setting missing comments as NA 
 data1$comments_alt <- data1$comments
@@ -115,10 +120,8 @@ colnames(data2) <- c("sighttime", "city", "state", "country",
                      "shape", "duration.seconds.POSIX", "duration.seconds", "duration.hours.min", 
                      "comments", "date_posted", "latitude", "longitude")
 
-# Checking for exact duplicates 
+# Checking for exact duplicates, give this a second 
 anyDuplicated(data2)
-
-#' Check for extreme values??? (CHECK)!!!!!!!!!!!!!!!!!! 
 
 # Dealing with outliers 
 # Calculating standard deviations to see what values are extreme 
@@ -144,7 +147,7 @@ data3 <- data2 %>%
   filter(duration.seconds > 0.5) %>%
   # Creating new column for duration in days (gives better idea as to length)
   mutate(duration.days = duration.seconds/(60 * 60 * 24)) %>%
-  # Filtering so sightings > 3*(standard deviations), removes extreme outliers previous had values for 900+ days, 
+  # Filtering so sightings > 3*(standard deviations), removes extreme outliers as previous frame had values for 900+ days, 
   filter(duration.seconds < outlier_lmt) %>% 
   #' filtering out likely hoaxes (as commented by NUFORC)
   filter(!str_detect(comments, "\\(\\("))
@@ -156,7 +159,7 @@ data3$report_delay_days <- (data3$date_posted - data3$sighttime)/(60*60*24)
 
 # Filtering data for only positive report delays (not reported before sighted)
 data3 <- data3 %>%
-  filter(report_delay_days > 0)
+  filter(data3$report_delay_days > 0)
 
 # Creating new dataframe for creating table of average report delay per country
 data4 <- data.frame(data3$country, data3$report_delay_days)
@@ -192,16 +195,12 @@ graph_ticks_secs <- c(0.5, 1, 10, 30, 60, 300, 1800, 3600, 86400, 604800, 120960
 graph_ticks_log <- log10(graph_ticks_secs)
 
 # Plotting histogram, using frequency as it reads better to general audience
-hist(log_secs, main= "Duration of Reported UFO Sightings, 2010 - 2014",
-     xlab = "Log(duration) (secs)", ylab = "Frequency of Sightings", 
-     breaks = graph_ticks_log, freq = T, xlim = c(c(min(log_secs)), max(log_secs)),
-     ylim = c(0, 10000), xaxt = "n")
+suppressWarnings(hist(log_secs, main= "Duration of Reported UFO Sightings, 2010 - 2014",
+                      xlab = "Log(duration) (secs)", ylab = "Frequency of Sightings", 
+                      breaks = graph_ticks_log, freq = T, xlim = c(c(min(log_secs)), max(log_secs)),
+                      ylim = c(0, 10000), xaxt = "n"))
 axis(side = 1, at = graph_ticks_log,labels = graph_lbls, las = 2, cex.axis = 0.7)
 # Using custom axis to set tick marks and make bin ranges more evident
-
-
-
-
-
+# Using suppress warning as it throws an error about how areas are incorrect due to custom bins 
 
 
