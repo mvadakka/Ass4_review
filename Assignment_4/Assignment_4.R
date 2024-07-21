@@ -35,7 +35,7 @@ factoring <- function(data, column_name) {
 # START OF ASSIGNMENT 
 
 # Setting file path to read UFO data 
-file_path <- c("/Users/zachery/BTC1855/Assignment_4/ufo_subset.csv")
+file_path <- c("/Users/mausamvk/Desktop/BTC1855/ufo_subset.csv")
 # Please set this to your system accordingly, thank you! 
 
 # Reading and storing raw data into dataframe
@@ -101,7 +101,7 @@ data1$sighttime_alt <- ymd_hm(data1$sighttime)
 
 # Converting seconds duration into a POSIX for later calculations
 # Using timezone as UTC but does not matter as measuring duration (don't need to keep track of time)
-data1$duration.seconds_alt <- as.POSIXct(duration.seconds, tz = "UTC")
+data1$duration.seconds_alt <- as.POSIXct(data1$duration.seconds, origin = "1960-01-01", tz = "UTC")
 
 # NOTE: didn't convert duration.hours.sec as it is very messy and consists of 
 # widely varied comments on time (wide variation in string format)
