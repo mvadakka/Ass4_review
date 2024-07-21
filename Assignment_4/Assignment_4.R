@@ -203,4 +203,7 @@ axis(side = 1, at = graph_ticks_log,labels = graph_lbls, las = 2, cex.axis = 0.7
 # Using custom axis to set tick marks and make bin ranges more evident
 # Using suppress warning as it throws an error about how areas are incorrect due to custom bins 
 
-
+####MV COMMENTS: Overall, you did a thorough job at identifying and making changes to ensure the structure and quality of the data was accurate.
+#### I like your use of functions to speed up the process and packages like dplyr, great job!!
+#### My only note is to check the as.POSIXct function on line 104, as you did not specify an origin which is a necessary argument (i.e.  origin = "1960-01-01"),
+#### and you did not call the variable correctly, you did duration.seconds but you needed data1$duration.second to call the variable
